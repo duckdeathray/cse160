@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Assignment 1</title>
+    </head>
+    <body onload="main()">
+        <canvas id="webgl1" width="400" height="400">
+            Please use a browser that supports "canvas"
+        </canvas>
+
+        <br>
+        <br>
+
+        <label>Drawing Mode</label>
+        <br>
+        <button onclick="setShapeSquare()">Square</button>
+        <button onclick="setShapeTriangle()">Triangle</button>
+        <button onclick="setShapeCircle()">Circle</button>
+
+        <br>
+        <br>
+        
+        Red:
+        <input type="range" id="RedSlider" min="0" max="255" value="0">
+        Green:
+        <input type="range" id="GreenSlider" min="0" max="255" value="0">
+        Blue:
+        <input type="range" id="BlueSlider" min="0" max="255" value="0">
+
+        <br>
+
+        Shape Size:
+        <input type="range" id="SizeSlider" min="1" max="70" value="10">
+
+        (Circles) Segment Count: 
+        <input type="range" id="SegmentSlider" min="3" max="40" value="20">
+        <br>
+        <br>
+
+        <button onclick="clearCanvas()">Clear</button>
+
+        <br>
+        <br>
+
+        Picture:
+        <button onclick="picture()">Draw</button>
+
+        <script src="../lib/webgl-utils.js"></script>
+        <script src="../lib/cuon-utils.js"></script>
+        <script src="../lib/cuon-matrix-cse160.js"></script>
+        <script src="asgn1.js"></script>
+    </body>
+</html>
