@@ -12,6 +12,8 @@ const CIRCLE = 2;
 let triangleBuffer;
 
 let currentShape = POINT;
+let lastX = null;
+let lastY = null;
 
 var VSHADER_SOURCE =
   'attribute vec4 a_Position;\n' +
@@ -158,13 +160,60 @@ function connectVariablesToGLSL() {
 }
 
 function click(ev) {
-  let x = ev.clientX;
-  let y = ev.clientY;
   let rect = ev.target.getBoundingClientRect();
 
-  x = ((x - rect.left) - canvas.width/2)/(canvas.width/2);
-  y = (canvas.height/2 - (y - rect.top))/(canvas.height/2);
+  let x = ((ev.clientX - rect.left) - canvas.width/2)/(canvas.width/2);
+  let y = (canvas.height/2 - (ev.clientY - rect.top))/(canvas.height/2);
 
+  draw(x, y);
+
+  lastX = null;
+  lastY = null;
+}
+
+function renderAllShapes() {
+
+  for(let i = 0; i < shapesList.length; i++) {
+    shapesList[i].render();
+  }
+}
+
+function clearCanvas() {
+  shapesList = [];
+  gl.clear(gl.COLOR_BUFFER_BIT);
+}
+
+function drag(ev) {
+  if(ev.buttons != 1){
+    lastX = null;
+    lastY = null;
+    return;
+  }
+  
+  let rect = ev.target.getBoundingClientRect();
+  let x = ((ev.clientX - rect.left) - canvas.width/2)/(canvas.width/2);
+  let y = (canvas.height/2 - (ev.clientY - rect.top))/(canvas.height/2);
+
+  if (lastX !== null) {
+    let dx = x - lastX;
+    let dy = y - lastY;
+    let dist = Math.sqrt(dx*dx + dy*dy);
+
+    let steps = Math.floor(dist / .02);
+    for (let i = 0; i < steps; i++) {
+      let t = i / steps;
+      let ix = lastX + t * dx;
+      let iy = lastY + t * dy;
+
+      draw(ix, iy);
+    }
+  }
+  lastX = x;
+  lastY = y;
+
+}
+
+function draw(x, y) {
   let r = document.getElementById('RedSlider').value / 255;
   let g = document.getElementById('GreenSlider').value / 255;
   let b = document.getElementById('BlueSlider').value / 255;
@@ -188,23 +237,6 @@ function click(ev) {
   }
 
   renderAllShapes();
-}
-
-function renderAllShapes() {
-
-  for(let i = 0; i < shapesList.length; i++) {
-    shapesList[i].render();
-  }
-}
-
-function clearCanvas() {
-  shapesList = [];
-  gl.clear(gl.COLOR_BUFFER_BIT);
-}
-
-function drag(ev) {
-  if(ev.buttons != 1) return;
-  click(ev);
 }
 
 function setShapeSquare() {
