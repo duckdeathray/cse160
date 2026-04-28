@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Assignment 1</title>
+    </head>
+    <body onload="main()">
+        <canvas id="webgl2" width="1000" height="600">
+            Please use a browser that supports "canvas"
+        </canvas>
+
+        <br>
+        <br>
+
+        <label>Blocky Animal</label>
+        <div>FPS: <span id="fps"></span></div>
+        <br>
+        <br>
+
+        <label>Move Neck</label>
+        <input type="range" min="0" max="45" value = "0" id="neckSlider" oninput="gNeck_Angle = this.value; renderAllShapes();">
+        <label>Turn Head</label>
+        <input type="range" min="-90" max="90" value = "0" id="headSlider" oninput="gHead_Angle = this.value; renderAllShapes();">
+        <label>Tail Wiggle</label>
+        <input type="range" min="0" max="45" value = "0" id="tailSlider" oninput="gTail_Angle = this.value; renderAllShapes();">
+        <br>
+        <label>Front Legs</label>
+        <br>
+        <label>Front Right Thigh</label>
+        <input type="range" min="-10" max="10" value = "0" id="fRThighSlider" oninput="fRThigh_Angle = this.value; renderAllShapes();">
+        <label>Front Right Calf</label>
+        <input type="range" min="-10" max="10" value = "0" id="fRCalfSlider" oninput="fRCalfAngle = this.value; renderAllShapes();">
+        <label>Front Right Foot</label>
+        <input type="range" min="-10" max="10" value = "0" id="fRFootSlider" oninput="fRFootAngle = this.value; renderAllShapes();">
+        <br>
+        <br>
+        <label>Front Left Thigh</label>
+        <input type="range" min="-10" max="10" value = "0" id="fLThighSlider" oninput="fLThigh_Angle = this.value; renderAllShapes();">
+        <label>Front Left Calf</label></lable>
+        <input type="range" min="-10" max="10" value = "0" id="fLCalfSlider" oninput="fLCalfAngle = this.value; renderAllShapes();">
+        <label>Front Left Foot</label>
+        <input type="range" min="-10" max="10" value = "0" id="fLFootSlider" oninput="fLFootAngle = this.value; renderAllShapes();">
+
+        <br>
+        <br>
+        <label>Back Legs</label>
+        <br>
+        <label>Back Right Thigh</label>
+        <input type="range" min="-10" max="10" value = "0" id="bRThighSlider" oninput="bRThigh_Angle = this.value; renderAllShapes();">
+        <label>Back Right Calf</label>
+        <input type="range" min="-10" max="10" value = "0" id="bRCalfSlider" oninput="bRCalfAngle = this.value; renderAllShapes();">
+        <label>Back Right Foot</label>
+        <input type="range" min="-10" max="10" value = "0" id="bRFootSlider" oninput="bRFootAngle = this.value; renderAllShapes();">
+        <br>
+        <br>
+        <label>Back Left Thigh</label>
+        <input type="range" min="-10" max="10" value = "0" id="bLThighSlider" oninput="bLThigh_Angle = this.value; renderAllShapes();">
+        <label>Back Left Calf</label>
+        <input type="range" min="-10" max="10" value = "0" id="bLCalfSlider" oninput="bLCalfAngle = this.value; renderAllShapes();">
+        <label>Back Left Foot</label>
+        <input type="range" min="-10" max="10" value = "0" id="bLFootSlider" oninput="bLFootAngle = this.value; renderAllShapes();">
+
+        <br>
+        <br>
+        <button onclick ="g_animation = 0; toggleAnimation();">Walking</button>
+        <button onclick="g_animation = 1; toggleAnimation();">Head Bopping</button>
+
+        <script src="../lib/webgl-utils.js"></script>
+        <script src="../lib/cuon-utils.js"></script>
+        <script src="../lib/cuon-matrix-cse160.js"></script>
+        <script src="asgn2.js"></script>
+    </body>
+</html>
