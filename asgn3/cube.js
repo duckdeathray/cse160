@@ -38,9 +38,11 @@ class Cube {
 
             if (this.isExit) {
                 gl.bindTexture(gl.TEXTURE_2D, texture1);
+                gl.uniform1i(u_useExitTexture, 1);
             } 
             else {
                 gl.bindTexture(gl.TEXTURE_2D, texture0);
+                gl.uniform1i(u_useExitTexture, 0);
             }
 
         } 

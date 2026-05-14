@@ -17,11 +17,6 @@ let gameOver = false;
 let u_useExitTexture;
 let exitCube = false;
 let finalTime = 0;
-const EXIT_CANDIDATES = [
-    { x: 21, z: 15 },
-    { x: 5, z: 3},
-    { x: 7, z: 13},
-];
 
 let exit = null;
 
@@ -222,38 +217,50 @@ function generateMaze() {
             stack.push([nx, nz]);
         }
     }
-    exit = pickRandomExit();
+    exit = findFarthestCell(1, 1);
     console.log("exit at", exit.x, exit.z);
 }
 
-function pickRandomExit() {
-    let validExits = EXIT_CANDIDATES.filter(e => map[e.x][e.z] === 0);
+function findFarthestCell(startX, startZ) {
+    let visited = Array.from({ length: MAP_SIZE }, () =>
+        Array(MAP_SIZE).fill(false)
+    );
 
-    if (validExits.length === 0) {
-        console.warn("No valid exit candidates found!");
-        return getRandomOpenCell();
-    }
+    let queue = [];
+    queue.push({ x: startX, z: startZ, dist: 0 });
+    visited[startX][startZ] = true;
 
-    return validExits[Math.floor(Math.random() * validExits.length)];
-}
+    let farthest = { x: startX, z: startZ, dist: 0 };
 
-function getRandomOpenCell() {
-    let openCells = [];
+    const dirs = [
+        [1, 0], [-1, 0],
+        [0, 1], [0, -1]
+    ];
 
-    for (let x = 0; x < MAP_SIZE; x++) {
-        for (let z = 0; z < MAP_SIZE; z++) {
-            if (map[x][z] === 0) {
-                openCells.push({ x, z });
+    while (queue.length > 0) {
+        let cur = queue.shift();
+
+        if (cur.dist > farthest.dist) {
+            farthest = cur;
+        }
+
+        for (let [dx, dz] of dirs) {
+            let nx = cur.x + dx;
+            let nz = cur.z + dz;
+
+            if (
+                nx >= 0 && nx < MAP_SIZE &&
+                nz >= 0 && nz < MAP_SIZE &&
+                !visited[nx][nz] &&
+                map[nx][nz] === 0
+            ) {
+                visited[nx][nz] = true;
+                queue.push({ x: nx, z: nz, dist: cur.dist + 1 });
             }
         }
     }
 
-    if (openCells.length === 0) {
-        console.log("No open cells found!");
-        return { x: 1, z: 1 };
-    }
-
-    return openCells[Math.floor(Math.random() * openCells.length)];
+    return { x: farthest.x, z: farthest.z };
 }
 
 function buildWorld(){
