@@ -14,10 +14,16 @@ let mouuseDown = false;
 let lastMousex = 0;
 let startTime = performance.now();
 let gameOver = false;
-let exit = {x: MAP_SIZE - 2, z: MAP_SIZE - 2};
 let u_useExitTexture;
 let exitCube = false;
 let finalTime = 0;
+const EXIT_CANDIDATES = [
+    { x: 21, z: 15 },
+    { x: 5, z: 3},
+    { x: 7, z: 13},
+];
+
+let exit = null;
 
 function resizeCanvas(canvas){
     const dpr = window.devicePixelRatio || 1;
@@ -218,9 +224,19 @@ function generateMaze() {
             stack.push([nx, nz]);
         }
     }
-    exit = getRandomOpenCell();
-    map[exit.x][exit.z] = 0;
+    exit = pickRandomExit();
     console.log("exit at", exit.x, exit.z);
+}
+
+function pickRandomExit() {
+    let validExits = EXIT_CANDIDATES.filter(e => map[e.x][e.z] === 0);
+
+    if (validExits.length === 0) {
+        console.warn("No valid exit candidates found!");
+        return getRandomOpenCell(); // fallback safety
+    }
+
+    return validExits[Math.floor(Math.random() * validExits.length)];
 }
 
 function getRandomOpenCell() {
@@ -258,7 +274,6 @@ function buildWorld(){
                     let w = new Cube();
                     w.useTexture = true;
                     w.isExit = false;
-
                     w.matrix.translate(x + .5, y, z + .5); 
                     walls.push(w);
                 }
@@ -268,8 +283,8 @@ function buildWorld(){
     exitCube = new Cube();
     exitCube.useTexture = true;
     exitCube.isExit = true;
-    exitCube.matrix.translate(exit.x + .5, 0, exit.z + .5); 
     exitCube.matrix.scale(2,2,2);
+    exitCube.matrix.translate(exit.x + .5, 0, exit.z + .5); 
     console.log("exit created");
 }
 
