@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Assignment 3</title>
+    </head>
+    <body onload="main()">
+        <canvas id="webgl3" width="1000" height="600">
+            Please use a browser that supports "canvas"
+        </canvas>
+        <div id="timer" style="position: absolute; top: 10px; left: 10px; color: white; font-size: 20px; font-family: monospace; z-index: 10;"></div>
+        <div id="gameOverScreen" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 40px; font-family: monospace; text-align: center; display: none; z-index: 20;">YOU WIN<br><div id="finalTime"></div></div>
+        <button id="toggleNormals">Toggle Normals</button>
+        <label>Light Slider</label>
+        <input label="Light Slider" type="range" id="light" min="0" max="6" step="0.1" value="3">
+        <label>Red</label>
+        <input label="Red" type="range" id="lightR" min="0" max="1" step="0.01" value="1">
+        <label>Green</label>
+        <input label="Green" type="range" id="lightG" min="0" max="1" step="0.01" value="1">
+        <label>Blue</label>
+        <input label="Blue" type="range" id="lightB" min="0" max="1" step="0.01" value="1">
+        <button id="toggleLighting">Toggle Lighting</button>
+        <button id="animateLight">Animate Light</button>
+
+        <script src="../lib/webgl-utils.js"></script>
+        <script src="../lib/cuon-utils.js"></script>
+        <script src="../lib/cuon-matrix-cse160.js"></script>
+        <script src="shaders.js"></script>
+        <script src="cube.js"></script>
+        <script src="camera.js"></script>
+        <script src="index.js"></script>
+        <script src="sphere.js"></script>
+    </body>
+</html>
